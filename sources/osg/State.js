@@ -421,12 +421,25 @@ State.prototype = MACROUTILS.objectLibraryClass( MACROUTILS.objectInherit( Objec
         this.popStateSet();
     },
 
-    getStateSetStackHash: function () {
+    setStateSetsDrawID: function ( id ) {
         var values = this.stateSets.values();
-        var sum = 0;
-        for ( var i = 0, l = values.length; i < l; i++ )
-            sum += values[ i ].getInstanceID();
-        return sum;
+        for ( var i = 0, nbStateSets = values.length; i < nbStateSets; i++ ) {
+            values[ i ].setDrawID( id );
+        }
+    },
+
+    isSimilarState: function ( id, nbLast ) {
+        var values = this.stateSets.values();
+        var nbStateSets = values.length;
+        if ( nbLast !== nbStateSets )
+            return false;
+
+        for ( var i = 0; i < nbStateSets; i++ ) {
+            if ( id !== values[ i ].getDrawID() )
+                return false;
+        }
+
+        return true;
     },
 
     popAllStateSets: function () {
